@@ -45,6 +45,7 @@ router.get('/drive-files', ensureAuthenticated, async (req, res) => {
 
   drive.files.list({
     pageSize: 100,
+    q: "mimeType='image/jpeg' or mimeType='image/png' or mimeType='image/gif'",
     fields: 'nextPageToken, files(id, name)',
   }, (err, response) => {
     if (err) return console.log(`The API returned an error: ${err}`);
