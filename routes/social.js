@@ -121,7 +121,18 @@ router.get('/drive-files', ensureAuthenticated, async (req, res) => {
 // }
 
 
-
+const mimeTypes = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/gif': 'gif',
+  'application/pdf': 'pdf',
+  'application/msword': 'doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',
+  'application/vnd.ms-excel': 'xls',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
+  'application/vnd.ms-powerpoint': 'ppt',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'pptx',
+};
 
 router.get('/download/:id', ensureAuthenticated, async (req, res) => {
   const user = await User.findOne({ email: req.user.email })
@@ -154,12 +165,18 @@ async function downloadFile(realFileId, user, res) {
       fileId: fileId,
       alt: 'media',
     }, { responseType: 'stream' });
-
+    let fType = file.headers['content-type'];
+    console.log(fType);
     // Set the Content-Disposition header to force download
-    res.set('Content-Disposition', `attachment; filename="${fileId}.jpg"`);
+    // res.set('Content-Disposition', `attachment; filename="${fileId}.jpg"`);
 
-    // Set the Content-Type header to the appropriate file type
-    res.set('Content-Type', 'image/jpeg');
+    // // Set the Content-Type header to the appropriate file type
+    // res.set('Content-Type', 'image/jpeg');
+    // use the mimeTypes object to set the correct content type
+    let generatedFileName = `${fileId}.${mimeTypes[fType]}`;
+    res.set('Content-Disposition', `attachment; filename="${fileId}.${mimeTypes[fType]}"`)
+    res.set('Content-Type', fType);
+    console.log(`Downloaded ${realFileId} to ${generatedFileName}`);
 
     // Pipe the stream directly to the response object
     file.data.pipe(res);
@@ -168,6 +185,8 @@ async function downloadFile(realFileId, user, res) {
     throw err;
   }
 }
+
+
 
 
 module.exports = router;
