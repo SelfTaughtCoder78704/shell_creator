@@ -1,0 +1,6 @@
+<!-- use ejs syntax to loop through files getting the name and id  -->
+<% for (var i = 0; i < files.length; i++) { %>
+<div class="file">
+  <a href="/auth/download/<%= files[i].id %>"><%= files[i].name %></a>
+</div>
+<% } %>

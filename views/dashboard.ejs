@@ -1,0 +1,18 @@
+<%- include ("partials/header") %>
+<div class="jumbotron text-center">
+  <div class="custom">
+    <h1 class="mt-4">Dashboard</h1>
+    <p class="lead mb-3">WELCOME <%= user.firstName.toUpperCase() %></p>
+  </div>
+</div>
+<a href="/auth/google" class="btn btn-google btn-block">
+  <i class="fab fa-google"></i> Connect with Google
+</a>
+<a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+<!-- if files.length > 0 render them -->
+<% if (files.length > 0 ) { %> <% for (var i = 0; i < files.length; i++) { %>
+<div class="file">
+  <a href="/auth/download/<%= files[i].id %>"><%= files[i].name %></a>
+</div>
+<% } %> <% } %> <%- include ("partials/footer") %>
