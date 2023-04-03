@@ -11,13 +11,14 @@ module.exports = function (passport) {
         passReqToCallback: true
       },
       async (req, accessToken, refreshToken, profile, done) => {
-
+        const expiryTimestamp = Math.floor((Date.now() + 3600000) / 1000);
         try {
           const user = await User.findOne({ email: req.user.email });
 
           user.googleId = profile.id;
           user.accessToken = accessToken;
           user.refreshToken = refreshToken;
+          user.expiryDate = expiryTimestamp;
           user.save();
           done(null, user);
 

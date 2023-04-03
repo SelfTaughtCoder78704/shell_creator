@@ -30,7 +30,11 @@ const userSchema = new Schema({
     refreshToken: {
         type: String,
         unique: true
-    }
+    },
+    expiryDate: {
+        type: Number,
+        unique: true
+    },
 
 });
 
