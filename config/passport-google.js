@@ -18,7 +18,7 @@ module.exports = function (passport) {
           user.googleId = profile.id;
           user.accessToken = accessToken;
           user.refreshToken = refreshToken;
-          user.expiryDate = expiryTimestamp;
+          user.expiryDate = new Date(expiryTimestamp * 1000);
           user.save();
           done(null, user);
 

@@ -6,12 +6,24 @@ const passport = require("passport");
 const { ensureAuthenticated } = require('../config/auth');
 //LOAD USER MODEL
 const User = require("../models/user-model");
-
-router.get('/dashboard', ensureAuthenticated, async (req, res) => {
+const checkAccessToken = async (req, res, next) => {
+  const user = await User.findOne({ email: req.user.email });
+  const currentTime = Date.now();
+  if (!user.accessToken || new Date(user.expiryDate).getTime() < currentTime) {
+    // If access token is missing or has expired, redirect the user to the Google login page
+    req.session.redirectTo = '/users/dashboard';
+    return res.redirect('/auth/google');
+  }
+  // If access token is valid, continue to the next middleware function or route handler
+  req.isValidAccessToken = true;
+  next();
+};
+router.get('/dashboard', ensureAuthenticated, checkAccessToken, async (req, res) => {
   res.render('dashboard', {
     user: req.user,
     hasConnectedGoogleDrive: !!req.session.accessToken,
-    files: []
+    files: [],
+    isValidAccessToken: req.isValidAccessToken
   });
 });
 

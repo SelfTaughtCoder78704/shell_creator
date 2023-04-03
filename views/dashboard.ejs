@@ -5,9 +5,12 @@
     <p class="lead mb-3">WELCOME <%= user.firstName.toUpperCase() %></p>
   </div>
 </div>
+<% if (!isValidAccessToken) { %>
+
 <a href="/auth/google" class="btn btn-google btn-block">
   <i class="fab fa-google"></i> Connect with Google
 </a>
+<% } %>
 <a href="/users/logout" class="btn btn-secondary">Logout</a>
 
 <!-- if files.length > 0 render them -->
