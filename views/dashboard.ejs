@@ -1,15 +1,25 @@
 <%- include ("partials/header") %>
 <div class="jumbotron text-center">
+  <% if(messages.length > 0) { %> <% for (var i = 0; i < messages.length; i++) {
+  %>
+  <div class="alert alert-<%= messages[i].type %>">
+    <%= messages[i].message %>
+  </div>
+  <% } %> <% } %>
   <div class="custom">
     <h1 class="mt-4">Dashboard</h1>
     <p class="lead mb-3">WELCOME <%= user.firstName.toUpperCase() %></p>
   </div>
 </div>
 <% if (!isValidAccessToken) { %>
-
-<a href="/auth/google" class="btn btn-google btn-block">
-  <i class="fab fa-google"></i> Connect with Google
-</a>
+<div class="container text-left">
+  <div class="alert alert-danger" role="alert">
+    You need to:
+    <a href="/auth/google" class="btn btn-google">
+      <i class="fab fa-google"></i> Connect with Google
+    </a>
+  </div>
+</div>
 <% } %>
 <a href="/users/logout" class="btn btn-secondary">Logout</a>
 
