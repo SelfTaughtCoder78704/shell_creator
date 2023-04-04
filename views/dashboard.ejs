@@ -1,11 +1,8 @@
 <%- include ("partials/header") %>
 <div class="jumbotron text-center">
-  <% if(messages.length > 0) { %> <% for (var i = 0; i < messages.length; i++) {
-  %>
-  <div class="alert alert-<%= messages[i].type %>">
-    <%= messages[i].message %>
-  </div>
-  <% } %> <% } %>
+  <% if(message)  { %>
+  <div class="alert"><%= message %></div>
+  <% } %>
   <div class="custom">
     <h1 class="mt-4">Dashboard</h1>
     <p class="lead mb-3">WELCOME <%= user.firstName.toUpperCase() %></p>

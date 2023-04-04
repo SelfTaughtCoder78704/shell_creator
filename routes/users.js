@@ -12,6 +12,7 @@ const checkAccessToken = async (req, res, next) => {
 
   if (!user.accessToken || user.expiryDate < currentTime) {
     // If access token is missing or has expired, set isValidAccessToken to false
+    req.message = 'Access token is missing or has expired. Please connect your Google Drive account.';
     req.isValidAccessToken = false;
   } else {
     // If access token is valid, set isValidAccessToken to true
@@ -27,7 +28,7 @@ router.get('/dashboard', ensureAuthenticated, checkAccessToken, async (req, res)
     hasConnectedGoogleDrive: !!req.session.accessToken,
     files: [],
     isValidAccessToken: req.isValidAccessToken,
-    messages: req.flash('error_msg')
+    message: req.message
   });
 });
 
