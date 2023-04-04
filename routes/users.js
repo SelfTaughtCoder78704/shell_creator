@@ -49,7 +49,7 @@ router.post("/register", (req, res) => {
   let errors = [];
 
   if (!firstName || !lastName || !email || !password || !password2) {
-    errrors.push({ msg: "PLEASE ENTER ALL FIELDS" });
+    errors.push({ msg: "PLEASE ENTER ALL FIELDS" });
   }
 
   if (password != password2) {
